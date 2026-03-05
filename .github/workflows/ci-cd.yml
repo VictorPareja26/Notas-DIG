@@ -16,12 +16,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and test
+      - name: Build test image
         uses: docker/build-push-action@v6
         with:
           push: false
+          load: true
           target: test
-          platforms: linux/amd64,linux/arm64
+          tags: notas-api:test
+
+      - name: Run tests
+        run: docker run --rm notas-api:test
 
   build:
     runs-on: ubuntu-latest
